@@ -26,7 +26,7 @@ import okhttp3.Response;
 public class CommonJsonCallback implements Callback {
 
     /**
-     * the logic layer exception, may alter in different app
+     * 与服务器返回的字段的一个对应关系
      */
     protected final String RESULT_CODE = "ecode"; // 有返回则对于http请求来说是成功的，但还有可能是业务逻辑上的错误
     protected final int RESULT_CODE_VALUE = 0;
@@ -37,7 +37,7 @@ public class CommonJsonCallback implements Callback {
     // set-cookie2
 
     /**
-     * the java layer exception, do not same to the logic error
+     * 自定义异常类型
      */
     protected final int NETWORK_ERROR = -1; // the network relative error
     protected final int JSON_ERROR = -2; // the JSON relative error
@@ -56,6 +56,11 @@ public class CommonJsonCallback implements Callback {
         this.mDeliveryHandler = new Handler(Looper.getMainLooper());
     }
 
+    /**
+     * 服务器无响应
+     * @param call
+     * @param ioexception
+     */
     @Override
     public void onFailure(final Call call, final IOException ioexception) {
         /**
@@ -64,11 +69,17 @@ public class CommonJsonCallback implements Callback {
         mDeliveryHandler.post(new Runnable() {
             @Override
             public void run() {
-                mListener.onFailure(new OkHttpException(NETWORK_ERROR, ioexception));
+                mListener.onFailure(new OkHttpException(NETWORK_ERROR, ioexception));//应用程序实现此方法
             }
         });
     }
 
+    /**
+     * 服务器有响应
+     * @param call
+     * @param response
+     * @throws IOException
+     */
     @Override
     public void onResponse(final Call call, final Response response) throws IOException {
         final String result = response.body().string();
@@ -97,9 +108,14 @@ public class CommonJsonCallback implements Callback {
         return tempList;
     }
 
+    /**
+     * 处理服务器返回的数据
+     * @param responseObj
+     */
     private void handleResponse(Object responseObj) {
+        //为了保证代码健壮性
         if (responseObj == null || responseObj.toString().trim().equals("")) {
-            mListener.onFailure(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));
+            mListener.onFailure(new OkHttpException(NETWORK_ERROR, EMPTY_MSG));//应用程序实现此方法
             return;
         }
 
@@ -109,17 +125,18 @@ public class CommonJsonCallback implements Callback {
              */
             JSONObject result = new JSONObject(responseObj.toString());
             if (mClass == null) {
-                mListener.onSuccess(result);
+                mListener.onSuccess(result);//应用程序实现此方法
             } else {
+                //将Json对象转化为Object
                 Object obj = ResponseEntityToModule.parseJsonObjectToModule(result, mClass);
                 if (obj != null) {
-                    mListener.onSuccess(obj);
+                    mListener.onSuccess(obj);//应用程序实现此方法
                 } else {
-                    mListener.onFailure(new OkHttpException(JSON_ERROR, EMPTY_MSG));
+                    mListener.onFailure(new OkHttpException(JSON_ERROR, EMPTY_MSG));//应用程序实现此方法
                 }
             }
         } catch (Exception e) {
-            mListener.onFailure(new OkHttpException(OTHER_ERROR, e.getMessage()));
+            mListener.onFailure(new OkHttpException(OTHER_ERROR, e.getMessage()));//应用程序实现此方法
             e.printStackTrace();
         }
     }
