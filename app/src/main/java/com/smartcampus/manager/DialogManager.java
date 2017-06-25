@@ -6,7 +6,7 @@ import android.content.Context;
 import com.smartcampus.R;
 
 /**
- * Created by renzhiqiang on 16/8/15.
+ * Created by 李志鹏 on 16/8/15.
  */
 public class DialogManager {
 

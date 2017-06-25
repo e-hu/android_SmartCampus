@@ -18,7 +18,9 @@ import com.smartcampus.view.fragment.home.HomeFragment;
 import com.smartcampus.view.fragment.home.MessageFragment;
 import com.smartcampus.view.fragment.home.MineFragment;
 
-
+/**
+ * @function创建首页所有的fragment
+ */
 public class HomeActivity extends BaseActivity implements OnClickListener {
 
     private FragmentManager fm;
@@ -28,6 +30,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
     private MineFragment mMineFragment;
     private Fragment mCurrent;
 
+    /**
+     * UI
+     */
     private RelativeLayout mHomeLayout;
     private RelativeLayout mPondLayout;
     private RelativeLayout mMessageLayout;
@@ -44,12 +49,16 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_home_layout);
         //启动后台产品服务更新
         startAllService();
+        //初始化页面中的所有控件
         initView();
 
+        //添加默认显示的Fragment
+        //事务模式添加Fragment
         mHomeFragment = new HomeFragment();
         fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        fragmentTransaction.replace(R.id.content_layout, mHomeFragment);//动态加载Fragment
+        //Fragment切换方式 : replace = 先remove在add //Fragment栈中只有一个，每次需要重新创建Fragment
+        fragmentTransaction.replace(R.id.content_layout, mHomeFragment);
         fragmentTransaction.commit();
     }
 
@@ -58,6 +67,9 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
         startService(intent);
     }
 
+    /**
+     * 初始化view  ->findViewById+设置监听器
+     */
     private void initView() {
         mHomeLayout = (RelativeLayout) findViewById(R.id.home_layout_view);
         mHomeLayout.setOnClickListener(this);
@@ -80,23 +92,33 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
         super.onDestroy();
     }
 
+    /**
+     * 隐藏具体的Fragment
+     * @param fragment
+     * @param ft
+     */
     private void hideFragment(Fragment fragment, FragmentTransaction ft) {
         if (fragment != null) {
             ft.hide(fragment);
         }
     }
 
+    /**
+     * Fragment切换逻辑
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         FragmentTransaction fragmentTransaction = fm.beginTransaction();//开启事务
         switch (v.getId()) {
             case R.id.home_layout_view:
+                //底端UI实现，当前点击的为黄色，其他为透明
                 changeStatusBarColor(R.color.color_fed952);
                 mHomeView.setBackgroundResource(R.drawable.comui_tab_home_selected);
                 mPondView.setBackgroundResource(R.drawable.comui_tab_pond);
                 mMessageView.setBackgroundResource(R.drawable.comui_tab_message);
                 mMineView.setBackgroundResource(R.drawable.comui_tab_person);
-                //隐藏Fragment
+                //将HomeFragment显示出来，隐藏其他Fragment
                 hideFragment(mBaiduMapFragmentOne, fragmentTransaction);
                 hideFragment(mMessageFragment, fragmentTransaction);
                 hideFragment(mMineFragment, fragmentTransaction);
@@ -110,12 +132,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
                 }
                 break;
             case R.id.pond_layout_view:
+                //底端UI实现，当前点击的为黄色，其他为透明
                 changeStatusBarColor(R.color.color_e3e3e3);
                 mMessageView.setBackgroundResource(R.drawable.comui_tab_message);
                 mHomeView.setBackgroundResource(R.drawable.comui_tab_home);
                 mPondView.setBackgroundResource(R.drawable.comui_tab_pond_selected);
                 mMineView.setBackgroundResource(R.drawable.comui_tab_person);
 
+                //将BaiduMapFragment显示出来，隐藏其他Fragment
                 hideFragment(mMessageFragment, fragmentTransaction);
                 hideFragment(mHomeFragment, fragmentTransaction);
                 hideFragment(mMineFragment, fragmentTransaction);
@@ -128,12 +152,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
                 }
                 break;
             case R.id.message_layout_view:
+                //底端UI实现，当前点击的为黄色，其他为透明
                 changeStatusBarColor(R.color.color_e3e3e3);
                 mMessageView.setBackgroundResource(R.drawable.comui_tab_message_selected);
                 mHomeView.setBackgroundResource(R.drawable.comui_tab_home);
                 mPondView.setBackgroundResource(R.drawable.comui_tab_pond);
                 mMineView.setBackgroundResource(R.drawable.comui_tab_person);
 
+                //将MessageFragment显示出来，隐藏其他Fragment
                 hideFragment(mBaiduMapFragmentOne, fragmentTransaction);
                 hideFragment(mHomeFragment, fragmentTransaction);
                 hideFragment(mMineFragment, fragmentTransaction);
@@ -146,11 +172,14 @@ public class HomeActivity extends BaseActivity implements OnClickListener {
                 }
                 break;
             case R.id.mine_layout_view:
+                //底端UI实现，当前点击的为黄色，其他为透明
                 changeStatusBarColor(R.color.white);
                 mMineView.setBackgroundResource(R.drawable.comui_tab_person_selected);
                 mHomeView.setBackgroundResource(R.drawable.comui_tab_home);
                 mPondView.setBackgroundResource(R.drawable.comui_tab_pond);
                 mMessageView.setBackgroundResource(R.drawable.comui_tab_message);
+
+                //将MineFragment显示出来，隐藏其他Fragment
                 hideFragment(mBaiduMapFragmentOne, fragmentTransaction);
                 hideFragment(mMessageFragment, fragmentTransaction);
                 hideFragment(mHomeFragment, fragmentTransaction);

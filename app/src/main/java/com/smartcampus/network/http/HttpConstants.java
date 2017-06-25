@@ -1,7 +1,7 @@
 package com.smartcampus.network.http;
 
 /**
- * @author: qndroid
+ * @author: 李志鹏
  * @function: 所有请求相关地址
  * @date: 16/8/12
  */

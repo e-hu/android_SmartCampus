@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
 
 /**********************************************************
  * @文件名称：UpdateDownloadRequest.java
- * @文件作者：renzhiqiang
+ * @文件作者：李志鹏
  * @创建时间：2015年8月26日 下午10:58:03
  * @文件描述：真正执行下载任务的Runnable
  * @修改历史：2015年8月26日创建初始版本
@@ -84,7 +84,7 @@ public class UpdateDownloadRequest implements Runnable {
 
 	/**********************************************************
 	 * @文件名称：UpdateDownloadRequest.java
-	 * @文件作者：renzhiqiang
+	 * @文件作者：李志鹏
 	 * @创建时间：2015年8月3日 上午11:16:40
 	 * @文件描述：下载消息转发器
 	 * @修改历史：2015年8月3日创建初始版本

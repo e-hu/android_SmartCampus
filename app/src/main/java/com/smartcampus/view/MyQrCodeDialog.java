@@ -13,7 +13,7 @@ import com.smartcampus.util.Util;
 import com.smartcampus.adutil.Utils;
 
 /**
- * Created by renzhiqiang on 16/8/19.
+ * Created by 李志鹏 on 16/8/19.
  */
 public class MyQrCodeDialog extends Dialog {
 

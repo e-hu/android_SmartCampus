@@ -3,7 +3,7 @@ package com.smartcampus.module.mina;
 import com.smartcampus.module.BaseModel;
 
 /**
- * Created by renzhiqiang on 16/8/20.
+ * Created by 李志鹏 on 16/8/20.
  */
 public class MinaMessage extends BaseModel {
 

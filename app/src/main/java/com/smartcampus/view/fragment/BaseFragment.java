@@ -9,7 +9,8 @@ import android.support.v4.content.ContextCompat;
 import com.smartcampus.constant.Constant;
 
 /**
- * Created by renzhiqiang on 16/8/12.
+ * Created by 李志鹏 on 16/8/12.
+ * 主要为我们所有的fragment提供公共的行为或实现
  */
 public class BaseFragment extends Fragment {
 

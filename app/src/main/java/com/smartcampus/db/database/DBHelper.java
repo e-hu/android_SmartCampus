@@ -10,7 +10,7 @@ import com.smartcampus.application.ImoocApplication;
 import java.util.ArrayList;
 
 /**
- * @author renzhiqiang
+ * @author 李志鹏
  * @description 工程数据库助手类, 我們在自己封裝一些東西的時候可以以Manager類的型式，也可以以Helper的形式
  * @date 2015年8月19日
  */

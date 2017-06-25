@@ -1,6 +1,5 @@
 package com.smartcampus.view.fragment.home;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,7 +38,7 @@ public class BaiduMapFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_location,container,false);
+        View view = inflater.inflate(R.layout.fragment_location_layout,container,false);
         bMapView = (MapView) view.findViewById(R.id.bmapView);
         initView();
         return view;

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 /**
- * Created by renzhiqiang on 16/8/20.
+ * Created by 李志鹏 on 16/8/20.
  */
 public class MinaReceiver extends BroadcastReceiver {
 

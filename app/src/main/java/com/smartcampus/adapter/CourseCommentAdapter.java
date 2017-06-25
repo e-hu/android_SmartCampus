@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by renzhiqiang on 16/9/8.
+ * Created by 李志鹏 on 16/9/8.
  */
 public class CourseCommentAdapter extends BaseAdapter {
 

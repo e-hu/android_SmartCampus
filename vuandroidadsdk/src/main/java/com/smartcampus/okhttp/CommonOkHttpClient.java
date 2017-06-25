@@ -23,11 +23,19 @@ import okhttp3.Response;
  * @function 用来发送get, post请求的工具类，包括设置一些请求的共用参数
  */
 public class CommonOkHttpClient {
+    /**
+     * 超时时间
+     */
     private static final int TIME_OUT = 30;
     private static OkHttpClient mOkHttpClient;
 
+    /**
+     * 为我们的client去配置参数
+     */
     static {
+        //创建构建者
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
+        //https支持
         okHttpClientBuilder.hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {
@@ -49,12 +57,14 @@ public class CommonOkHttpClient {
             }
         });
         okHttpClientBuilder.cookieJar(new SimpleCookieJar());
+        //为构建者填充超时时间
         okHttpClientBuilder.connectTimeout(TIME_OUT, TimeUnit.SECONDS);
         okHttpClientBuilder.readTimeout(TIME_OUT, TimeUnit.SECONDS);
         okHttpClientBuilder.writeTimeout(TIME_OUT, TimeUnit.SECONDS);
+        //允许重定向和转发
         okHttpClientBuilder.followRedirects(true);
         /**
-         * trust all the https point
+         * 添加SSL支持
          */
         okHttpClientBuilder.sslSocketFactory(HttpsUtils.initSSLSocketFactory(), HttpsUtils.initTrustManager());
         mOkHttpClient = okHttpClientBuilder.build();

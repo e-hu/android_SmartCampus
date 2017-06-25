@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author renzhiqiang
+ * @author 李志鹏
  * @description 数据助手类，三层架构，应用层调用DBDataHelper,DBDataHelper调用DBHelper完成真正的数据存储
  * @date 2015年8月19日
  */

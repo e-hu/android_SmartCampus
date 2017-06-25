@@ -26,7 +26,7 @@ import com.smartcampus.util.Util;
 import java.util.ArrayList;
 
 /**
- * @author renzhiqiang
+ * @author 李志鹏
  * @description 产品搜索页面
  * @date 2015年8月19日
  */

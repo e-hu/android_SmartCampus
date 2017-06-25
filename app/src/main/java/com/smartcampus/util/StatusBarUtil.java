@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
- * Created by qndroid on 16/11/3.
+ * Created by 李志鹏 on 16/11/3.
  * @function 用来管理手机状态栏一系列操作，主要是就Window类的使用
  */
 

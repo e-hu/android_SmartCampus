@@ -13,7 +13,7 @@ import com.smartcampus.constant.Constant;
 import com.smartcampus.util.StatusBarUtil;
 
 /**
- * @author: qndroid
+ * @author: 李志鹏
  * @function: 所有Activity的基类，用来处理一些公共事件，如：数据统计
  * @date: 16/3/10
  */

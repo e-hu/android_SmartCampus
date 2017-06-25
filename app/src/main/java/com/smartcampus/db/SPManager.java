@@ -8,7 +8,7 @@ import android.content.SharedPreferences.Editor;
 import com.smartcampus.application.ImoocApplication;
 
 /**
- * @author qndroid
+ * @author 李志鹏
  * @description 配置文件工具类
  * @date 2015年1月15日
  */

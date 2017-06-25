@@ -17,7 +17,7 @@ import com.smartcampus.util.ImageLoaderManager;
 import java.util.ArrayList;
 
 /**
- * Created by renzhiqiang on 16/9/5.
+ * Created by 李志鹏 on 16/9/5.
  */
 public class HotSalePagerAdapter extends PagerAdapter {
     private Context mContext;

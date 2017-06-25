@@ -7,7 +7,7 @@ import android.widget.MultiAutoCompleteTextView.Tokenizer;
 
 /**********************************************************
  * @文件名称：MailBoxAssociateTokenizer.java
- * @文件作者：renzhiqiang
+ * @文件作者：李志鹏
  * @创建时间：2015年4月26日 下午11:02:52
  * @文件描述：指定联想字符
  * @修改历史：2015年4月26日创建初始版本

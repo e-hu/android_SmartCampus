@@ -31,7 +31,7 @@ import cn.sharesdk.framework.Platform;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * @author: qndroid
+ * @author: 李志鹏
  * @function:
  * @date: 16/6/15
  */

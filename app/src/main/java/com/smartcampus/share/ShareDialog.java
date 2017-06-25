@@ -24,7 +24,7 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 
 /**
- * Created by renzhiqiang on 16/8/13.
+ * Created by 李志鹏 on 16/8/13.
  */
 public class ShareDialog extends Dialog implements View.OnClickListener {
 

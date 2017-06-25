@@ -3,7 +3,7 @@ package com.smartcampus.network.mina;
 import org.apache.mina.core.session.IoSession;
 
 /**
- * Created by qndroid on 16/6/3.
+ * Created by 李志鹏 on 16/6/3.
  *
  * @function: 用来管理客户端Session单例对象，负责与服务器通信
  */

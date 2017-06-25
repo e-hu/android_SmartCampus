@@ -11,7 +11,7 @@ import com.smartcampus.activity.base.BaseActivity;
 import com.smartcampus.module.PushMessage;
 
 /**
- * Created by qndroid on 16/11/19.
+ * Created by 李志鹏 on 16/11/19.
  *
  * @function 显示推送的消息界面
  */

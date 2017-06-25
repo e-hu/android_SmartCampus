@@ -5,7 +5,7 @@ import com.smartcampus.module.user.User;
 
 /**
  * @description 单例管理登陆用户信息
- * @author renzhiqiang
+ * @author 李志鹏
  * @date 2015年8月19日
  */
 public class UserManager {

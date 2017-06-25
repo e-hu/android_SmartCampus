@@ -5,7 +5,7 @@ import com.smartcampus.module.BaseModel;
 import java.util.ArrayList;
 
 /**
- * Created by renzhiqiang on 16/8/20.
+ * Created by 李志鹏 on 16/8/20.
  */
 public class MinaContent extends BaseModel {
 

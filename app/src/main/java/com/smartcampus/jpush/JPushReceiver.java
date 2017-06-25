@@ -23,7 +23,7 @@ import java.util.List;
 import cn.jpush.android.api.JPushInterface;
 
 /**
- * @author qndroid
+ * @author 李志鹏
  * @function 接收极光服务广播出来的推送消息，实现跳转逻辑
  */
 public class JPushReceiver extends BroadcastReceiver {

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import cn.sharesdk.framework.Platform;
 
 /**
- * Created by renzhiqiang on 16/8/31.
+ * Created by 李志鹏 on 16/8/31.
  *
  * @function 显示产品大图页面
  */

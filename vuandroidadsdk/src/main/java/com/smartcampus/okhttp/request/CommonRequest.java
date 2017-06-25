@@ -11,16 +11,15 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 /**
- * @author vision
- * @function build the request
+ * @author 李志鹏
+ * @function 接收请求参数，为我们生成Request对象
  */
 public class CommonRequest {
     /**
-     * create the key-value Request
-     *
+     * Post请求
      * @param url
      * @param params
-     * @return
+     * @return 返回一个Post请求的Request对象
      */
     public static Request createPostRequest(String url, RequestParams params) {
         return createPostRequest(url, params, null);
@@ -30,12 +29,14 @@ public class CommonRequest {
      * @param url
      * @param params
      * @param headers
-     * @return
+     * @return 返回一个带请求头的Post请求Request对象
      */
     public static Request createPostRequest(String url, RequestParams params, RequestParams headers) {
+        //添加请求参数
         FormBody.Builder mFormBodyBuild = new FormBody.Builder();
         if (params != null) {
             for (Map.Entry<String, String> entry : params.urlParams.entrySet()) {
+                //将请求参数遍历添加到我们的请求构建类中
                 mFormBodyBuild.add(entry.getKey(), entry.getValue());
             }
         }
@@ -48,19 +49,18 @@ public class CommonRequest {
         }
         FormBody mFormBody = mFormBodyBuild.build();
         Headers mHeader = mHeaderBuild.build();
-        Request request = new Request.Builder().url(url).
-                post(mFormBody).
-                headers(mHeader)
+        Request request = new Request.Builder().url(url)
+                .post(mFormBody)
+                .headers(mHeader)
                 .build();
         return request;
     }
 
     /**
-     * ressemble the params to the url
-     *
+     * Get请求
      * @param url
      * @param params
-     * @return
+     * @return 返回一个Get请求的Request对象
      */
     public static Request createGetRequest(String url, RequestParams params) {
 
@@ -72,7 +72,7 @@ public class CommonRequest {
      * @param url
      * @param params
      * @param headers
-     * @return
+     * @return 返回一个带请求头的Get请求Request对象
      */
     public static Request createGetRequest(String url, RequestParams params, RequestParams headers) {
         StringBuilder urlBuilder = new StringBuilder(url).append("?");
@@ -89,8 +89,8 @@ public class CommonRequest {
             }
         }
         Headers mHeader = mHeaderBuild.build();
-        return new Request.Builder().
-                url(urlBuilder.substring(0, urlBuilder.length() - 1))
+        return new Request.Builder()
+                .url(urlBuilder.substring(0, urlBuilder.length() - 1))
                 .get()
                 .headers(mHeader)
                 .build();

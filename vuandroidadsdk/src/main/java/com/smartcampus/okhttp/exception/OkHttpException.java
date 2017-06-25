@@ -7,7 +7,7 @@ package com.smartcampus.okhttp.exception;
  * @文件描述：自定义异常类,返回ecode,emsg到业务层
  * @修改历史：2015年8月19日创建初始版本
  **********************************************************/
-public class OkHttpException extends Exception {
+public class OkHttpException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	/**

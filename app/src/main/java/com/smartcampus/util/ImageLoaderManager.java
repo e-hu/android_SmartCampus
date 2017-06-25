@@ -17,7 +17,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.smartcampus.R;
 
 /**
- * @author: qndroid
+ * @author: 李志鹏
  * @function: 初始化UniverImageLoader, 并用来加载网络图片
  * @date: 16/6/27
  */

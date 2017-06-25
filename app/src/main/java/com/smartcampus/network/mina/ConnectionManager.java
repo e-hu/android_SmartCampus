@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference;
 import java.net.InetSocketAddress;
 
 /**
- * Created by renzhiqiang on 16/5/31.
+ * Created by 李志鹏 on 16/5/31.
  * 负责与远程和服器的连接建立，消息接收
  */
 public class ConnectionManager {

@@ -3,7 +3,7 @@ package com.smartcampus.network.mina;
 import android.content.Context;
 
 /**
- * @author Created by renzhiqiang on 16/6/4.
+ * @author Created by 李志鹏 on 16/6/4.
  * @function 与服务器连接的配置参数类
  */
 public class ConnectionConfig {
