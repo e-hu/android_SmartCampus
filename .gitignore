@@ -6,5 +6,4 @@ gradle/
 *.iml
 gradlew
 gradlew.bat
-local.properties
 
