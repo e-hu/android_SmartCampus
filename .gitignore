@@ -2,6 +2,7 @@
 .gradle/
 .idea/
 build/
+#androidTest/
 gradle/
 *.iml
 gradlew

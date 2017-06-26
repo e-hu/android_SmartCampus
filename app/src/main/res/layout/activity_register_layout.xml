@@ -1,10 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ScrollView
-        android:id="@+id/login_scroll"
+        android:id="@+id/register_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -12,31 +12,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/iv_login_logo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="60dp"
-                android:background="@drawable/icon_login"
-                android:paddingLeft="43dp"
-                android:paddingRight="47dp"
-                android:paddingTop="70dp"/>
 
             <RelativeLayout
-                android:id="@+id/rl_login_input"
+                android:id="@+id/rl_register_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/iv_login_logo"
                 android:paddingLeft="25dp"
                 android:paddingRight="25dp">
 
-                <com.smartcampus.view.associatemail.MailBoxAssociateView
-                    android:id="@+id/associate_email_input"
+                <EditText
+                    android:id="@+id/register_input_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="57dp"
-                    android:hint="@string/account"
+                    android:hint="@string/username"
                     android:paddingBottom="12dp"
                     android:paddingLeft="5dp"
                     android:popupBackground="@drawable/bg_recommend_mail_list"
@@ -46,10 +35,10 @@
                     android:textSize="16sp"/>
 
                 <EditText
-                    android:id="@+id/login_input_pass"
+                    android:id="@+id/register_input_pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/associate_email_input"
+                    android:layout_below="@+id/register_input_username"
                     android:layout_marginTop="22dp"
                     android:hint="@string/password"
                     android:inputType="textPassword"
@@ -59,24 +48,43 @@
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_bfbfbf"
                     android:textSize="16sp"/>
+
+                <EditText
+                    android:id="@+id/register_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/register_input_pass"
+                    android:layout_marginTop="22dp"
+                    android:hint="@string/repassword"
+                    android:inputType="textPassword"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="5dp"
+                    android:singleLine="true"
+                    android:textColor="@color/color_333333"
+                    android:textColorHint="@color/color_bfbfbf"
+                    android:textSize="16sp"/>
+
+                <com.smartcampus.view.associatemail.MailBoxAssociateView
+                    android:id="@+id/register_email_input"
+                    android:layout_below="@+id/register_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:hint="@string/email"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="5dp"
+                    android:popupBackground="@drawable/bg_recommend_mail_list"
+                    android:maxLines="1"
+                    android:textColor="@color/color_333333"
+                    android:textColorHint="@color/color_bfbfbf"
+                    android:textSize="16sp"/>
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/login_button"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_below="@id/rl_login_input"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="50dp"
-                android:background="@color/color_fed952"
-                android:gravity="center"
-                android:text="@string/login"/>
             <TextView
                 android:id="@+id/register_button"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_below="@id/login_button"
+                android:layout_below="@id/rl_register_input"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="50dp"

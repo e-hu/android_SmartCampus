@@ -1,8 +1,8 @@
 package com.smartcampus.view.associatemail;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.util.AttributeSet;
-import android.widget.MultiAutoCompleteTextView;
 
 /**********************************************************
  * @文件名称：MailBoxAssociateView.java
@@ -11,7 +11,7 @@ import android.widget.MultiAutoCompleteTextView;
  * @文件描述：本在邮箱联想控件，输入@符后开始联想
  * @修改历史：2015年8月26日创建初始版本
  **********************************************************/
-public class MailBoxAssociateView extends MultiAutoCompleteTextView
+public class MailBoxAssociateView extends AppCompatMultiAutoCompleteTextView
 {
 	public MailBoxAssociateView(Context context)
 	{

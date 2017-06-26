@@ -3,6 +3,8 @@
     <string-array name="recommend_mailbox">
         <item>\&#064;gmail.com</item>
         <item>\&#064;hotmail.com</item>
+        <item>\&#064;qq.com</item>
+        <item>\&#064;126.com</item>
         <item>\&#064;yahoo.com</item>
         <item>\&#064;outlook.com</item>
         <item>\&#064;aol.com</item>

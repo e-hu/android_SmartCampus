@@ -146,16 +146,16 @@ public class CourseDetailActivity extends BaseActivity implements View.OnClickLi
             if (UserManager.getInstance().hasLogined()) {
                 CourseCommentValue value = (CourseCommentValue) mAdapter.getItem(
                         position - mListView.getHeaderViewsCount());
-                if (value.userId.equals(UserManager.getInstance().getUser().data.userId)) {
-                    //自己的评论不能回复
-                    intoEmptyState();
-                    Toast.makeText(this, "不能回复自己!", Toast.LENGTH_SHORT).show();
-                } else {
+//                if (value.userId.equals(UserManager.getInstance().getUser().data.userId)) {
+//                    //自己的评论不能回复
+//                    intoEmptyState();
+//                    Toast.makeText(this, "不能回复自己!", Toast.LENGTH_SHORT).show();
+//                } else {
                     //不是自己的评论，可以回复
                     tempHint = getString(R.string.comment_hint_head).concat(value.name).
                             concat(getString(R.string.comment_hint_footer));
                     intoEditState(tempHint);
-                }
+//                }
             } else {
                 startActivity(new Intent(this, LoginActivity.class));
             }
@@ -211,9 +211,9 @@ public class CourseDetailActivity extends BaseActivity implements View.OnClickLi
     private CourseCommentValue assembleCommentValue(String comment) {
         User user = UserManager.getInstance().getUser();
         CourseCommentValue value = new CourseCommentValue();
-        value.name = user.data.name;
-        value.logo = user.data.photoUrl;
-        value.userId = user.data.userId;
+//        value.name = user.data.name;
+//        value.logo = user.data.photoUrl;
+//        value.userId = user.data.userId;
         value.type = 1;
         value.text = tempHint + comment;
         return value;

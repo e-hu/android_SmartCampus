@@ -6,6 +6,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.smartcampus.core.AdSDKManager;
 import com.smartcampus.share.ShareManager;
 
+import cn.bmob.v3.Bmob;
 import cn.jpush.android.api.JPushInterface;
 
 
@@ -35,6 +36,11 @@ public class ImoocApplication extends Application {
         initJPush();
         initAdSDK();
         initBaiduMapSDK();
+        initBmob();
+    }
+
+    private void initBmob() {
+        Bmob.initialize(this, "7fde5b16cc4a9c0d7a9f1362e4a326d4");
     }
 
     private void initBaiduMapSDK() {

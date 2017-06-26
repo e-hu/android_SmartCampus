@@ -111,8 +111,8 @@ public class MineFragment extends BaseFragment
             if (mLoginedLayout.getVisibility() == View.GONE) {
                 mLoginLayout.setVisibility(View.GONE);
                 mLoginedLayout.setVisibility(View.VISIBLE);
-                mUserNameView.setText(UserManager.getInstance().getUser().data.name);
-                mTickView.setText(UserManager.getInstance().getUser().data.tick);
+//                mUserNameView.setText(UserManager.getInstance().getUser().data.name);
+//                mTickView.setText(UserManager.getInstance().getUser().data.tick);
             }
         }
     }
@@ -242,9 +242,9 @@ public class MineFragment extends BaseFragment
                 if (mLoginedLayout.getVisibility() == View.GONE) {
                     mLoginLayout.setVisibility(View.GONE);
                     mLoginedLayout.setVisibility(View.VISIBLE);
-                    mUserNameView.setText(UserManager.getInstance().getUser().data.name);
-                    mTickView.setText(UserManager.getInstance().getUser().data.tick);
-                    ImageLoaderUtil.getInstance(mContext).displayImage(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
+//                    mUserNameView.setText(UserManager.getInstance().getUser().data.name);
+//                    mTickView.setText(UserManager.getInstance().getUser().data.tick);
+//                    ImageLoaderUtil.getInstance(mContext).displayImage(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
                 }
             }
         }

@@ -2,15 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smartcampus">
 
+
+    <!--允许联网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--获取GSM（2g）、WCDMA（联通3g）等网络状态的信息  -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--获取wifi网络状态的信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!--保持CPU 运转，屏幕和键盘灯有可能是关闭的,用于文件上传和下载 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!--获取sd卡写的权限，用于文件上传和下载-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <!--允许读取手机状态 用于创建BmobInstallation-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -18,12 +25,6 @@
 
     <!-- shareSDK所需权限 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
@@ -34,38 +35,35 @@
 
     <uses-permission android:name="com.smartcampus.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <!--百度地图权限-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
 
 
     <application
-        android:name="com.smartcampus.application.ImoocApplication"
+        android:name=".application.ImoocApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <!--<activity-->
+            <!--android:name=".baidumap.GeoCoderDemo"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:windowSoftInputMode="adjustPan|stateHidden">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity
-            android:name="com.smartcampus.activity.LoadingActivity"
+            android:name=".activity.LoadingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
             android:windowSoftInputMode="adjustPan|stateHidden">
@@ -76,32 +74,32 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.smartcampus.activity.GuideActivity"
+            android:name=".activity.GuideActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="com.smartcampus.activity.HomeActivity"
+            android:name=".activity.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="com.smartcampus.activity.SettingActivity"
+            android:name=".activity.SettingActivity"
             android:label="@string/title_activity_setting" />
         <activity
-            android:name="com.smartcampus.activity.SearchActivity"
+            android:name=".activity.SearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.smartcampus.activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name="com.smartcampus.activity.PhotoViewActivity"
+            android:name=".activity.PhotoViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.smartcampus.activity.MessageActivity"
+            android:name=".activity.MessageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.smartcampus.activity.CourseDetailActivity"
+            android:name=".activity.CourseDetailActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <!-- 本地产品更新列表服务 -->
@@ -113,7 +111,7 @@
 
         <!-- 二维码相关 -->
         <activity
-            android:name="com.smartcampus.zxing.app.CaptureActivity"
+            android:name=".zxing.app.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -138,7 +136,7 @@
         </activity>
         <!-- 微信分享回调 -->
         <activity
-            android:name="com.smartcampus.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -226,10 +224,13 @@
             android:exported="false" />
 
         <!-- 推送模块自定义部分 -->
-        <activity android:name="com.smartcampus.jpush.PushMessageActivity" />
+        <activity android:name=".jpush.PushMessageActivity" />
+
+        <!--用户注册-->
+        <activity android:name=".activity.RegisteredActivity" />
 
         <receiver
-            android:name="com.smartcampus.jpush.JPushReceiver"
+            android:name=".jpush.JPushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>

@@ -6,11 +6,21 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.search.core.SearchResult;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.nostra13.universalimageloader.utils.L;
 import com.smartcampus.R;
 import com.smartcampus.util.MyLocationListener;
@@ -21,13 +31,15 @@ import com.smartcampus.view.fragment.BaseFragment;
  * @function:
  * @date: 16/7/14
  */
-public class BaiduMapFragment extends BaseFragment {
+public class BaiduMapFragment extends BaseFragment implements OnGetGeoCoderResultListener {
 
     private MapView bMapView;
     private BaiduMap mBaiduMap;
     private LocationClient mLocationClient;
+    private GeoCoder mSearch; // 搜索模块，也可去掉地图模块独立使用
 
     public BaiduMapFragment() {
+
     }
 
     @Override
@@ -41,18 +53,28 @@ public class BaiduMapFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_location_layout,container,false);
         bMapView = (MapView) view.findViewById(R.id.bmapView);
         initView();
+        showResult();
         return view;
     }
+
+    private void showResult() {
+        mSearch.geocode(new GeoCodeOption().city(
+                "石家庄").address("石家庄市桥东区石家庄铁路职业技术学院"));
+    }
+
     private void initView() {
         mBaiduMap = bMapView.getMap();
         //声明LocationClient类
-        mLocationClient = new LocationClient(getActivity().getApplicationContext());
         //注册监听函数
+        mLocationClient = new LocationClient(getActivity().getApplicationContext());
         mLocationClient.registerLocationListener(new MyLocationListener(mBaiduMap));
         initLocation();
         //开启定位
         mLocationClient.start();
         L.e("开始定位");
+        // 初始化搜索模块，注册事件监听
+        mSearch = GeoCoder.newInstance();
+        mSearch.setOnGetGeoCodeResultListener(this);
     }
 
     private void initLocation() {
@@ -110,5 +132,41 @@ public class BaiduMapFragment extends BaseFragment {
         super.onPause();
         //在fragment执行onPause时执行mMapView.onPause ()，实现地图生命周期管理
         bMapView.onPause();
+    }
+
+    @Override
+    public void onGetGeoCodeResult(GeoCodeResult result) {
+        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(getActivity(), "抱歉，未能找到结果", Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+        mBaiduMap.clear();
+        mBaiduMap.addOverlay(new MarkerOptions().position(result.getLocation())
+                .icon(BitmapDescriptorFactory
+                        .fromResource(R.drawable.icon_mark)));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(result
+                .getLocation()));
+        String strInfo = String.format("纬度：%f 经度：%f",
+                result.getLocation().latitude, result.getLocation().longitude);
+        Toast.makeText(getActivity(), strInfo, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult result) {
+        if (result == null || result.error != SearchResult.ERRORNO.NO_ERROR) {
+            Toast.makeText(getActivity(), "抱歉，未能找到结果", Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+        mBaiduMap.clear();
+        mBaiduMap.addOverlay(new MarkerOptions().position(result.getLocation())
+                .icon(BitmapDescriptorFactory
+                        .fromResource(R.drawable.icon_mark)));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newLatLng(result
+                .getLocation()));
+        Toast.makeText(getActivity(), result.getAddress(),
+                Toast.LENGTH_LONG).show();
+
     }
 }

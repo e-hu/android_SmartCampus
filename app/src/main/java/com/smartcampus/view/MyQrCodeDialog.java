@@ -50,7 +50,7 @@ public class MyQrCodeDialog extends Dialog {
             }
         });
 
-        String name = UserManager.getInstance().getUser().data.name;
+        String name = UserManager.getInstance().getUser().getUsername();
         mQrCodeView.setImageBitmap(Util.createQRCode(
             Utils.dip2px(mContext, 200),
             Utils.dip2px(mContext, 200),

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smartcampus.R;
 import com.smartcampus.activity.base.BaseActivity;
@@ -19,9 +20,7 @@ import com.smartcampus.manager.UserManager;
 import com.smartcampus.module.PushMessage;
 import com.smartcampus.module.user.User;
 import com.smartcampus.module.user.UserContent;
-import com.smartcampus.network.http.RequestCenter;
 import com.smartcampus.network.mina.MinaService;
-import com.smartcampus.okhttp.listener.DisposeDataListener;
 import com.smartcampus.share.ShareManager;
 import com.smartcampus.share.ShareManager.PlatofrmType;
 import com.smartcampus.view.associatemail.MailBoxAssociateTokenizer;
@@ -29,6 +28,8 @@ import com.smartcampus.view.associatemail.MailBoxAssociateView;
 
 import java.util.HashMap;
 
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 
@@ -43,6 +44,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private MailBoxAssociateView mUserNameAssociateView;
     private EditText mPasswordView;
     private TextView mLoginView;
+    private TextView mRegister;
     private ImageView mQQLoginView; //用来实现QQ登陆
     /**
      * data
@@ -70,11 +72,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initView() {
         changeStatusBarColor(R.color.white);
         mUserNameAssociateView = (MailBoxAssociateView) findViewById(R.id.associate_email_input);
-        mPasswordView = (EditText) findViewById(R.id.login_input_password);
+        mPasswordView = (EditText) findViewById(R.id.login_input_pass);
         mLoginView = (TextView) findViewById(R.id.login_button);
         mLoginView.setOnClickListener(this);
+        mRegister = (TextView) findViewById(R.id.register_button);
+        mRegister.setOnClickListener(this);
 
-        mUserNameAssociateView = (MailBoxAssociateView) findViewById(R.id.associate_email_input);
+
+        //邮箱后缀
         String[] recommendMailBox = getResources().getStringArray(R.array.recommend_mailbox);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_associate_mail_list,
                 R.id.tv_recommend_mail, recommendMailBox);
@@ -89,6 +94,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.register_button:
+                startActivity(RegisteredActivity.class);
+                break;
             case R.id.login_button:
                 login();
                 break;
@@ -110,7 +118,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         userContent.photoUrl = platform.getDb().getUserIcon();
                         userContent.platform = platform.getDb().getPlatformNname();
                         User user = new User();
-                        user.data = userContent;
+//                        user.data = userContent;
                         //保存用户信息并通知其他模块登陆成功
                         UserManager.getInstance().setUser(user);
                         connectToSever();
@@ -140,6 +148,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
+
+
     /**
      * 用户信息存入数据库，以使让用户一打开应用就是一个登陆过的状态
      */
@@ -159,40 +169,87 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return;
         }
 
-        DialogManager.getInstnce().showProgressDialog(this);
-
-        RequestCenter.login(userName, password, new DisposeDataListener() {
+        //DialogManager.getInstnce().showProgressDialog(this);
+        Toast.makeText(LoginActivity.this, "登录前1", Toast.LENGTH_SHORT).show();
+        //登录
+        final User user = new User();
+        Toast.makeText(LoginActivity.this, "登录前2", Toast.LENGTH_SHORT).show();
+        user.setUsername(userName);
+        Toast.makeText(LoginActivity.this, "登录前3", Toast.LENGTH_SHORT).show();
+        user.setPassword(password);
+        Toast.makeText(LoginActivity.this, "登录前4", Toast.LENGTH_SHORT).show();
+        user.login(new SaveListener<User>() {
             @Override
-            public void onSuccess(Object responseObj) {
+            public void done(User myUser, BmobException e) {
+                Toast.makeText(LoginActivity.this, "登录中", Toast.LENGTH_SHORT).show();
                 DialogManager.getInstnce().dismissProgressDialog();
-
-                /**
-                 * 这部分可以封装起来，封装为到一个登陆流程类中
-                 */
-                User user = (User) responseObj;
-                UserManager.getInstance().setUser(user);//保存当前用户单例对象
-                connectToSever();
-                sendLoginBroadcast();
-                /**
-                 * 还应该将用户信息存入数据库，这样可以保证用户打开应用后总是登陆状态
-                 * 只有用户手动退出登陆时候，将用户数据从数据库中删除。
-                 */
-                insertUserInfoIntoDB();
-
-                if (fromPush) {
-                    Intent intent = new Intent(LoginActivity.this, PushMessageActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("pushMessage", mPushMessage);
-                    startActivity(intent);
+                //判断结果
+                if (e == null) {
+                    finish();//销毁当前登陆页面
+                    //判断邮箱是否验证
+                    if (user.getEmailVerified()) {
+                        /**
+                         * 这部分可以封装起来，封装为到一个登陆流程类中
+                         */
+                        UserManager.getInstance().setUser(user);//保存当前用户单例对象
+                        connectToSever();
+                        sendLoginBroadcast();
+                        /**
+                         * 还应该将用户信息存入数据库，这样可以保证用户打开应用后总是登陆状态
+                         * 只有用户手动退出登陆时候，将用户数据从数据库中删除。
+                         */
+                        insertUserInfoIntoDB();
+                        //跳转
+                        if (fromPush) {
+                            Intent intent = new Intent(LoginActivity.this, PushMessageActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra("pushMessage", mPushMessage);
+                            startActivity(intent);
+                        }
+//                        finish();//销毁当前登陆页面
+                    } else {
+                        Toast.makeText(LoginActivity.this, "请前往邮箱验证", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this, "登录失败：" + e.toString(), Toast.LENGTH_SHORT).show();
                 }
-                finish();//销毁当前登陆页面
-            }
-
-            @Override
-            public void onFailure(Object reasonObj) {
-                DialogManager.getInstnce().dismissProgressDialog();
             }
         });
+
+//        RequestCenter.login(userName, password, new DisposeDataListener() {
+//            @Override
+//            public void onSuccess(Object responseOb
+//
+// j) {
+//                DialogManager.getInstnce().dismissProgressDialog();
+//
+//                /**
+//                 * 这部分可以封装起来，封装为到一个登陆流程类中
+//                 */
+//                User user = (User) responseObj;
+//                UserManager.getInstance().setUser(user);//保存当前用户单例对象
+//                connectToSever();
+//                sendLoginBroadcast();
+//                /**
+//                 * 还应该将用户信息存入数据库，这样可以保证用户打开应用后总是登陆状态
+//                 * 只有用户手动退出登陆时候，将用户数据从数据库中删除。
+//                 */
+//                insertUserInfoIntoDB();
+//
+//                if (fromPush) {
+//                    Intent intent = new Intent(LoginActivity.this, PushMessageActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intent.putExtra("pushMessage", mPushMessage);
+//                    startActivity(intent);
+//                }
+//                finish();//销毁当前登陆页面
+//            }
+//
+//            @Override
+//            public void onFailure(Object reasonObj) {
+//                DialogManager.getInstnce().dismissProgressDialog();
+//            }
+//        });
     }
 
     //启动长连接

@@ -191,4 +191,13 @@
 	<div>By <a href="mailto:sinpowei@gmail.com">sinpo</a>, 2011.</div>
 	]]>
 	</string>
+    <!--注册-->
+    <string name="register">注 册</string>
+    <string name="username">用户名:</string>
+    <string name="repassword">再次输入密码:</string>
+    <string name="email">邮箱地址:</string>
+    <string name="text_registered_successful">注册成功</string>
+    <string name="text_registered_failure">注册失败</string>
+    <string name="text_two_input_not_consistent">两次密码输入不同</string>
+    <string name="text_tost_empty">输入框不能为空</string>
 </resources>
