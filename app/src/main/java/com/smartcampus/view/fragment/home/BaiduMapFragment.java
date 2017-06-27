@@ -3,6 +3,7 @@ package com.smartcampus.view.fragment.home;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,7 +150,7 @@ public class BaiduMapFragment extends BaseFragment implements OnGetGeoCoderResul
                 .getLocation()));
         String strInfo = String.format("纬度：%f 经度：%f",
                 result.getLocation().latitude, result.getLocation().longitude);
-        Toast.makeText(getActivity(), strInfo, Toast.LENGTH_LONG).show();
+        Log.i(TAG, strInfo);
     }
 
     @Override

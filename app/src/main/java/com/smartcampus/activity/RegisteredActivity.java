@@ -79,7 +79,7 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
 
                         user.signUp(new SaveListener<User>() {
                             @Override
-                            public void done(User myUser, BmobException e) {
+                            public void done(User user, BmobException e) {
                                 if(e==null){
                                     Toast.makeText(RegisteredActivity.this, R.string.text_registered_successful, Toast.LENGTH_SHORT).show();
                                     finish();

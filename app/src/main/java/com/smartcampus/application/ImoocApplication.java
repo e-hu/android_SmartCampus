@@ -1,13 +1,20 @@
 package com.smartcampus.application;
 
 import android.app.Application;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.smartcampus.core.AdSDKManager;
+import com.smartcampus.manager.UserManager;
+import com.smartcampus.module.user.User;
 import com.smartcampus.share.ShareManager;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobUser;
 import cn.jpush.android.api.JPushInterface;
+
+import static com.smartcampus.activity.LoginActivity.LOGIN_ACTION;
 
 
 /**
@@ -41,6 +48,11 @@ public class ImoocApplication extends Application {
 
     private void initBmob() {
         Bmob.initialize(this, "7fde5b16cc4a9c0d7a9f1362e4a326d4");
+        User user = BmobUser.getCurrentUser(User.class);
+        if (user != null) {
+            UserManager.getInstance().setUser(user);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(LOGIN_ACTION));
+        }
     }
 
     private void initBaiduMapSDK() {

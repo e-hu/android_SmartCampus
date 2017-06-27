@@ -228,6 +228,8 @@
 
         <!--用户注册-->
         <activity android:name=".activity.RegisteredActivity" />
+        <!--用户信息-->
+        <activity android:name=".activity.UserInfoActivity" />
 
         <receiver
             android:name=".jpush.JPushReceiver"

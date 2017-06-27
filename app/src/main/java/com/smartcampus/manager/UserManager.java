@@ -43,7 +43,7 @@ public class UserManager {
 
 	public boolean hasLogined() {
 
-		return user == null ? false : true;
+		return user != null;
 	}
 
 	/**

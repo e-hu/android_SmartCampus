@@ -11,6 +11,8 @@ import com.smartcampus.okhttp.listener.DisposeDownloadListener;
 import com.smartcampus.okhttp.request.CommonRequest;
 import com.smartcampus.okhttp.request.RequestParams;
 
+import cn.bmob.v3.listener.SaveListener;
+
 /**
  * @author: vision
  * @function:
@@ -29,14 +31,13 @@ public class RequestCenter {
      *
      * @param listener
      * @param userName
-     * @param passwd
+     * @param password
      */
-    public static void login(String userName, String passwd, DisposeDataListener listener) {
-
-        RequestParams params = new RequestParams();
-        params.put("mb", userName);
-        params.put("pwd", passwd);
-        RequestCenter.postRequest(HttpConstants.LOGIN, params, listener, User.class);
+    public static void login(String userName, String password, SaveListener listener) {
+        final User user = new User();
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.login(listener);
     }
 
     /**

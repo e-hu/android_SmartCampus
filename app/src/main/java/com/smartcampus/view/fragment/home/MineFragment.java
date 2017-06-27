@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.smartcampus.R;
 import com.smartcampus.activity.LoginActivity;
 import com.smartcampus.activity.SettingActivity;
+import com.smartcampus.activity.UserInfoActivity;
 import com.smartcampus.constant.Constant;
 import com.smartcampus.manager.UserManager;
 import com.smartcampus.module.update.UpdateModel;
@@ -24,7 +25,6 @@ import com.smartcampus.network.http.RequestCenter;
 import com.smartcampus.okhttp.listener.DisposeDataListener;
 import com.smartcampus.service.update.UpdateService;
 import com.smartcampus.share.ShareDialog;
-import com.smartcampus.adutil.ImageLoaderUtil;
 import com.smartcampus.util.Util;
 import com.smartcampus.view.CommonDialog;
 import com.smartcampus.view.MyQrCodeDialog;
@@ -32,6 +32,9 @@ import com.smartcampus.view.fragment.BaseFragment;
 
 import cn.sharesdk.framework.Platform;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.smartcampus.activity.LoginActivity.LOGIN_ACTION;
+import static com.smartcampus.activity.UserInfoActivity.LOGOUT_ACTION;
 
 /**
  * @author: vision
@@ -80,25 +83,29 @@ public class MineFragment extends BaseFragment
 
 
     private void initView() {
+        //未登录的View
         mLoginLayout = (RelativeLayout) mContentView.findViewById(R.id.login_layout);
         mLoginLayout.setOnClickListener(this);
-        mLoginedLayout = (RelativeLayout) mContentView.findViewById(R.id.logined_layout);
-        mLoginedLayout.setOnClickListener(this);
-
         mPhotoView = (CircleImageView) mContentView.findViewById(R.id.photo_view);
         mPhotoView.setOnClickListener(this);
         mLoginView = (TextView) mContentView.findViewById(R.id.login_view);
         mLoginView.setOnClickListener(this);
+        //已登录的View
+        mLoginedLayout = (RelativeLayout) mContentView.findViewById(R.id.logined_layout);
+        mLoginedLayout.setOnClickListener(this);
+        mLoginInfoView = (TextView) mContentView.findViewById(R.id.login_info_view);
+        mLoginInfoView.setOnClickListener(this);
+        mUserNameView = (TextView) mContentView.findViewById(R.id.username_view);
+        mUserNameView.setOnClickListener(this);
+        mTickView = (TextView) mContentView.findViewById(R.id.tick_view);
+        mTickView.setOnClickListener(this);
+        //公共View
         mVideoPlayerView = (TextView) mContentView.findViewById(R.id.video_setting_view);
         mVideoPlayerView.setOnClickListener(this);
         mShareView = (TextView) mContentView.findViewById(R.id.share_imooc_view);
         mShareView.setOnClickListener(this);
         mQrCodeView = (TextView) mContentView.findViewById(R.id.my_qrcode_view);
         mQrCodeView.setOnClickListener(this);
-        mLoginInfoView = (TextView) mContentView.findViewById(R.id.login_info_view);
-        mUserNameView = (TextView) mContentView.findViewById(R.id.username_view);
-        mTickView = (TextView) mContentView.findViewById(R.id.tick_view);
-
         mUpdateView = (TextView) mContentView.findViewById(R.id.update_view);
         mUpdateView.setOnClickListener(this);
     }
@@ -111,8 +118,8 @@ public class MineFragment extends BaseFragment
             if (mLoginedLayout.getVisibility() == View.GONE) {
                 mLoginLayout.setVisibility(View.GONE);
                 mLoginedLayout.setVisibility(View.VISIBLE);
-//                mUserNameView.setText(UserManager.getInstance().getUser().data.name);
-//                mTickView.setText(UserManager.getInstance().getUser().data.tick);
+                mUserNameView.setText(UserManager.getInstance().getUser().getUsername());
+                mTickView.setText(UserManager.getInstance().getUser().getEmail());
             }
         }
     }
@@ -135,6 +142,15 @@ public class MineFragment extends BaseFragment
                 //未登陆，则跳轉到登陸页面
                 if (!UserManager.getInstance().hasLogined()) {
                     toLogin();
+                }
+                break;
+            case R.id.logined_layout:
+            case R.id.login_info_view:
+            case R.id.username_view:
+            case R.id.tick_view:
+                //已登录，查看用户信息
+                if (UserManager.getInstance().hasLogined()) {
+                    startActivity(UserInfoActivity.class);
                 }
                 break;
             case R.id.my_qrcode_view:
@@ -190,8 +206,9 @@ public class MineFragment extends BaseFragment
 
     private void registerBroadcast() {
 
-        IntentFilter filter =
-                new IntentFilter(LoginActivity.LOGIN_ACTION);
+        IntentFilter filter =new IntentFilter();
+        filter.addAction(LOGIN_ACTION);
+        filter.addAction(LOGOUT_ACTION);
         LocalBroadcastManager.getInstance(mContext)
                 .registerReceiver(receiver, filter);
     }
@@ -237,15 +254,30 @@ public class MineFragment extends BaseFragment
     private class LoginBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (UserManager.getInstance().hasLogined()) {
-                //更新我们的fragment
-                if (mLoginedLayout.getVisibility() == View.GONE) {
-                    mLoginLayout.setVisibility(View.GONE);
-                    mLoginedLayout.setVisibility(View.VISIBLE);
-//                    mUserNameView.setText(UserManager.getInstance().getUser().data.name);
-//                    mTickView.setText(UserManager.getInstance().getUser().data.tick);
-//                    ImageLoaderUtil.getInstance(mContext).displayImage(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
-                }
+            switch (intent.getAction()){
+                case LOGIN_ACTION:
+                    if (UserManager.getInstance().hasLogined()) {
+                        //更新我们的fragment
+                        if (mLoginedLayout.getVisibility() == View.GONE) {
+                            mLoginLayout.setVisibility(View.GONE);
+                            mLoginedLayout.setVisibility(View.VISIBLE);
+                            mUserNameView.setText(UserManager.getInstance().getUser().getUsername());
+                            mTickView.setText(UserManager.getInstance().getUser().getEmail());
+        //                    ImageLoaderUtil.getInstance(mContext).displayImage(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
+                        }
+                    }
+                    break;
+                case LOGOUT_ACTION:
+                    if (!UserManager.getInstance().hasLogined()){
+                        //更新我们的fragment
+                        if (mLoginLayout.getVisibility() == View.GONE) {
+                            mLoginedLayout.setVisibility(View.GONE);
+                            mLoginLayout.setVisibility(View.VISIBLE);
+                            mUserNameView.setText(null);
+                            mTickView.setText(null);
+                        }
+                    }
+                    break;
             }
         }
     }
