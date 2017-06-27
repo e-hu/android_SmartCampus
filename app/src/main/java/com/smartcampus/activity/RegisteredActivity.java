@@ -23,10 +23,9 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class RegisteredActivity extends BaseActivity implements View.OnClickListener {
 
-    private EditText mUserName;
+    private MailBoxAssociateView mUserName;
     private EditText mPass;
     private EditText mPassword;
-    private MailBoxAssociateView mEmial;
     private TextView mRegister;
 
     @Override
@@ -37,19 +36,19 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initView() {
-        mUserName = (EditText) findViewById(R.id.register_input_username);
+        mUserName = (MailBoxAssociateView) findViewById(R.id.register_input_username);
         mPass = (EditText) findViewById(R.id.register_input_pass);
         mPassword = (EditText) findViewById(R.id.register_input_password);
-        mEmial = (MailBoxAssociateView) findViewById(R.id.register_email_input);
         mRegister = (TextView) findViewById(R.id.register_button);
         mRegister.setOnClickListener(this);
+        findViewById(R.id.other_type_register_button).setOnClickListener(this);
 
         //邮箱后缀
         String[] recommendMailBox = getResources().getStringArray(R.array.recommend_mailbox);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_associate_mail_list,
                 R.id.tv_recommend_mail, recommendMailBox);
-        mEmial.setAdapter(adapter);
-        mEmial.setTokenizer(new MailBoxAssociateTokenizer());
+        mUserName.setAdapter(adapter);
+        mUserName.setTokenizer(new MailBoxAssociateTokenizer());
     }
 
     @Override
@@ -57,31 +56,29 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()){
             case R.id.register_button:
                 //获取到输入框的值
-                String name = mUserName.getText().toString().trim();
+                String username = mUserName.getText().toString().trim();
                 String pass = mPass.getText().toString().trim();
                 String password = mPassword.getText().toString().trim();
-                String email = mEmial.getText().toString().trim();
 
                 //判断是否为空
-                if (!TextUtils.isEmpty(name) &&
+                if (!TextUtils.isEmpty(username) &&
                         !TextUtils.isEmpty(pass) &&
-                        !TextUtils.isEmpty(password) &&
-                        !TextUtils.isEmpty(email)) {
+                        !TextUtils.isEmpty(password)) {
 
                     //判断两次输入的密码是否一致
                     if (pass.equals(password)){
                         //注册
                         User user = new User();
-                        user.setUsername(name);
+                        user.setUsername(username);
                         user.setPassword(password);
-                        user.setEmail(email);
-
-
+                        user.setEmail(username);//默认用户名为邮箱
                         user.signUp(new SaveListener<User>() {
                             @Override
                             public void done(User user, BmobException e) {
                                 if(e==null){
-                                    Toast.makeText(RegisteredActivity.this, R.string.text_registered_successful, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(RegisteredActivity.this,
+                                            getString(R.string.text_registered_successful)+" "+getString(R.string.goto_email)
+                                            , Toast.LENGTH_SHORT).show();
                                     finish();
                                 }else{
                                     Toast.makeText(RegisteredActivity.this, getString(R.string.text_registered_failure) + e.toString(), Toast.LENGTH_SHORT).show();
@@ -94,7 +91,8 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
                 } else {
                     Toast.makeText(this, getString(R.string.text_tost_empty), Toast.LENGTH_SHORT).show();
                 }
-
+                break;
+            case R.id.other_type_register_button:
                 break;
         }
     }

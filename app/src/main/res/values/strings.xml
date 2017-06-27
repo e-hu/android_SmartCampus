@@ -201,4 +201,6 @@
     <string name="text_two_input_not_consistent">两次密码输入不同</string>
     <string name="text_tost_empty">输入框不能为空</string>
     <string name="logout">退 出 登 录</string>
+    <string name="goto_email">请前往邮箱验证</string>
+    <string name="other_type">其他方式</string>
 </resources>

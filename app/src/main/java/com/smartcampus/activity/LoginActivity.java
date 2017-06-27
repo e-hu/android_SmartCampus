@@ -29,7 +29,9 @@ import com.smartcampus.view.associatemail.MailBoxAssociateView;
 
 import java.util.HashMap;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
@@ -121,12 +123,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         UserManager.getInstance().setUser(user);
                         connectToSever();
                         sendLoginBroadcast();
-                        /**
-                         * 还应该将用户信息存入数据库，这样可以保证用户打开应用后总是登陆状态
-                         * 只有用户手动退出登陆时候，将用户数据从数据库中删除。
-                         */
-                        insertUserInfoIntoDB();
-
                         finish();
                     }
 
@@ -148,12 +144,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
 
 
-    /**
-     * 用户信息存入数据库，以使让用户一打开应用就是一个登陆过的状态
-     */
-    private void insertUserInfoIntoDB() {
-    }
-
     //发送登陆请求
     private void login() {
         String userName = mUserNameAssociateView.getText().toString().trim();
@@ -170,7 +160,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         DialogManager.getInstnce().showProgressDialog(this);
         //登录
-        RequestCenter.login(userName, password, new SaveListener<User>() {
+        BmobUser.loginByAccount(userName, password, new LogInListener<User>() {
+
             @Override
             public void done(User user, BmobException e) {
                 DialogManager.getInstnce().dismissProgressDialog();
@@ -184,11 +175,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         UserManager.getInstance().setUser(user);//保存当前用户单例对象
                         connectToSever();
                         sendLoginBroadcast();
-                        /**
-                         * 还应该将用户信息存入数据库，这样可以保证用户打开应用后总是登陆状态
-                         * 只有用户手动退出登陆时候，将用户数据从数据库中删除。
-                         */
-                        insertUserInfoIntoDB();
                         //跳转
                         if (fromPush) {
                             Intent intent = new Intent(LoginActivity.this, PushMessageActivity.class);
@@ -198,7 +184,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         }
                         finish();//销毁当前登陆页面
                     } else {
-                        Toast.makeText(LoginActivity.this, "请前往邮箱验证", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, R.string.goto_email, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "登录失败：" + e.toString(), Toast.LENGTH_SHORT).show();

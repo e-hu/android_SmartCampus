@@ -94,16 +94,9 @@ dependencies {
     //百度地图
     compile files('libs/BaiduLBS_Android.jar')
     //Bmob
-    compile('cn.bmob.android:bmob-sdk:3.5.0'){
-        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
-        exclude group: 'io.reactivex:rxandroid'
-        exclude group: 'io.reactivex:rxjava'
-        exclude group: 'com.squareup.okio'
-    }
+    compile('cn.bmob.android:bmob-sdk:3.5.0')
     /**{
      *  exclude group: 'com.squareup.okhttp3', module: 'okhttp'
-     *  exclude group: 'io.reactivex:rxandroid'
-     *  exclude group: 'io.reactivex:rxjava'
      *  exclude group: 'com.squareup.okio'
      *}
      *
