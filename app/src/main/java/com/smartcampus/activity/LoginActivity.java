@@ -79,6 +79,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         mLoginView.setOnClickListener(this);
         mRegister = (TextView) findViewById(R.id.register_button);
         mRegister.setOnClickListener(this);
+        findViewById(R.id.other_login_button).setOnClickListener(this);
         //邮箱后缀
         String[] recommendMailBox = getResources().getStringArray(R.array.recommend_mailbox);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_associate_mail_list,
@@ -94,6 +95,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.other_login_button:
+                Toast.makeText(this, R.string.not_support_other_type_login, Toast.LENGTH_SHORT).show();
+                break;
             case R.id.register_button:
                 startActivity(RegisteredActivity.class);
                 break;
@@ -168,7 +172,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 //判断结果
                 if (e == null) {
                     //判断邮箱是否验证
-                    if (user.getEmailVerified()) {
+                    if (user.getEmailVerified() || user.getMobilePhoneNumberVerified()) {
                         /**
                          * 这部分可以封装起来，封装为到一个登陆流程类中
                          */

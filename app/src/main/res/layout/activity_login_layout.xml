@@ -40,7 +40,7 @@
                     android:paddingBottom="12dp"
                     android:paddingLeft="5dp"
                     android:popupBackground="@drawable/bg_recommend_mail_list"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_bfbfbf"
                     android:textSize="16sp"/>
@@ -55,7 +55,7 @@
                     android:inputType="textPassword"
                     android:paddingBottom="12dp"
                     android:paddingLeft="5dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="@color/color_333333"
                     android:textColorHint="@color/color_bfbfbf"
                     android:textSize="16sp"/>
@@ -85,4 +85,35 @@
                 android:text="@string/register"/>
         </RelativeLayout>
     </ScrollView>
+    <LinearLayout
+        android:padding="15dp"
+        android:id="@+id/other_type"
+        android:visibility="gone"
+        android:layout_above="@+id/other_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:gravity="center"
+            android:id="@+id/qq"
+            android:text="@string/qq"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp" />
+        <TextView
+            android:gravity="center"
+            android:id="@+id/wechat"
+            android:text="@string/wechat"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/other_login_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:text="@string/other_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

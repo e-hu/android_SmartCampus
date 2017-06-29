@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.smartcampus.R;
 import com.smartcampus.core.AdSDKManager;
 import com.smartcampus.manager.UserManager;
 import com.smartcampus.module.user.User;
@@ -47,7 +48,7 @@ public class ImoocApplication extends Application {
     }
 
     private void initBmob() {
-        Bmob.initialize(this, "7fde5b16cc4a9c0d7a9f1362e4a326d4");
+        Bmob.initialize(this, getString(R.string.bmob_key));
         User user = BmobUser.getCurrentUser(User.class);
         if (user != null) {
             UserManager.getInstance().setUser(user);

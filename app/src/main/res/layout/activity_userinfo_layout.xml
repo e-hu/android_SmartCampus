@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -8,9 +9,73 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/icon_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/photo_view"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/default_user_avatar"
+                    />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/photo_view"
+                    android:text="@string/add_username"
+                    android:textColor="@color/color_bfbfbf"
+                    android:textSize="15sp"
+                    />
+
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_setting"
+                android:layout_below="@+id/icon_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/email"
+                    layout="@layout/view_arrow_right"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/color_cdcdcd"
+                    />
+                <include
+                    android:id="@+id/mobile"
+                    layout="@layout/view_arrow_right"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    />
+
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/logout_button"
@@ -20,6 +85,7 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="50dp"
                 android:background="@color/color_fed952"
+                android:layout_below="@+id/ll_setting"
                 android:gravity="center"
                 android:text="@string/logout"/>
         </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.smartcampus.activity;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,11 +28,15 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
     private EditText mPass;
     private EditText mPassword;
     private TextView mRegister;
+    private TextView mOtherType;
+    @StringRes private int mType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register_layout);
+        mType = R.string.emial_register;
         initView();
     }
 
@@ -41,7 +46,9 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
         mPassword = (EditText) findViewById(R.id.register_input_password);
         mRegister = (TextView) findViewById(R.id.register_button);
         mRegister.setOnClickListener(this);
-        findViewById(R.id.other_type_register_button).setOnClickListener(this);
+        mOtherType = (TextView) findViewById(R.id.other_register_button);
+        mOtherType.setOnClickListener(this);
+
 
         //邮箱后缀
         String[] recommendMailBox = getResources().getStringArray(R.array.recommend_mailbox);
@@ -71,7 +78,11 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
                         User user = new User();
                         user.setUsername(username);
                         user.setPassword(password);
-                        user.setEmail(username);//默认用户名为邮箱
+                        if (mType == R.string.email_address){
+                            user.setEmail(username);//设置邮箱
+                        } else {
+                            user.setMobilePhoneNumber(username);//设置手机号
+                        }
                         user.signUp(new SaveListener<User>() {
                             @Override
                             public void done(User user, BmobException e) {
@@ -92,7 +103,22 @@ public class RegisteredActivity extends BaseActivity implements View.OnClickList
                     Toast.makeText(this, getString(R.string.text_tost_empty), Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case R.id.other_type_register_button:
+
+            case R.id.other_register_button:
+                Toast.makeText(this, R.string.not_support_phone, Toast.LENGTH_SHORT).show();
+                /*
+                if (mType == R.string.emial_register){
+                    mType = R.string.phone_register;
+                    mUserName.setHint(R.string.phone_number);
+                    mOtherType.setText(R.string.emial_register);
+                }
+                else {
+                    mType = R.string.emial_register;
+                    mUserName.setHint(R.string.email_address);
+                    mOtherType.setText(R.string.phone_register);
+                }
+                */
+
                 break;
         }
     }

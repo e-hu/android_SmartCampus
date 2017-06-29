@@ -227,9 +227,13 @@
         <activity android:name=".jpush.PushMessageActivity" />
 
         <!--用户注册-->
-        <activity android:name=".activity.RegisteredActivity" />
+        <activity android:name=".activity.RegisteredActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <!--用户信息-->
-        <activity android:name=".activity.UserInfoActivity" />
+        <activity android:name=".activity.UserInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <receiver
             android:name=".jpush.JPushReceiver"
@@ -254,14 +258,14 @@
             android:value="developer-default" />
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="31c7267ea593bd4b4e96b96a" />
+            android:value="@string/jpush_key" />
         <!-- </>值来自开发者平台取得的AppKey -->
 
 
         <!-- 友盟统计相关meta-data -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="57bfe3cbe0f55a0b2e0025b8" />
+            android:value="@string/umeng_key" />
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
@@ -273,7 +277,7 @@
             android:value="Android_Demo" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="vK9DVKXrO82ti6XWfS4m6FGK1XwYCGAl" />
+            android:value="@string/baidumap_key" />
 
     </application>
 

@@ -120,6 +120,6 @@ public class ShareManager {
      * @author 应用程序需要的平台
      */
     public enum PlatofrmType {
-        QQ, QZone, WeChat, WechatMoments;
+        QQ, QZone, WeChat, WechatMoments
     }
 }
