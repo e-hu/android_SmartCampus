@@ -21,10 +21,12 @@ import com.smartcampus.activity.UserInfoActivity;
 import com.smartcampus.constant.Constant;
 import com.smartcampus.manager.UserManager;
 import com.smartcampus.module.update.UpdateModel;
+import com.smartcampus.module.user.User;
 import com.smartcampus.network.http.RequestCenter;
 import com.smartcampus.okhttp.listener.DisposeDataListener;
 import com.smartcampus.service.update.UpdateService;
 import com.smartcampus.share.ShareDialog;
+import com.smartcampus.util.ImageLoaderManager;
 import com.smartcampus.util.Util;
 import com.smartcampus.view.CommonDialog;
 import com.smartcampus.view.MyQrCodeDialog;
@@ -50,6 +52,7 @@ public class MineFragment extends BaseFragment
     private View mContentView;
     private RelativeLayout mLoginLayout;
     private CircleImageView mPhotoView;
+    private CircleImageView userPhotoView;
     private TextView mLoginInfoView;
     private TextView mLoginView;
     private RelativeLayout mLoginedLayout;
@@ -99,6 +102,7 @@ public class MineFragment extends BaseFragment
         mUserNameView.setOnClickListener(this);
         mTickView = (TextView) mContentView.findViewById(R.id.tick_view);
         mTickView.setOnClickListener(this);
+        userPhotoView = (CircleImageView) mContentView.findViewById(R.id.user_photo_view);
         //公共View
         mVideoPlayerView = (TextView) mContentView.findViewById(R.id.video_setting_view);
         mVideoPlayerView.setOnClickListener(this);
@@ -108,6 +112,10 @@ public class MineFragment extends BaseFragment
         mQrCodeView.setOnClickListener(this);
         mUpdateView = (TextView) mContentView.findViewById(R.id.update_view);
         mUpdateView.setOnClickListener(this);
+        if (UserManager.getInstance().hasLogined()) {
+            User user = UserManager.getInstance().getUser();
+            ImageLoaderManager.getInstance(mContext).displayImage(userPhotoView, user.getPicture().getFileUrl());
+        }
     }
 
     @Override
@@ -120,6 +128,7 @@ public class MineFragment extends BaseFragment
                 mLoginedLayout.setVisibility(View.VISIBLE);
                 mUserNameView.setText(UserManager.getInstance().getUser().getUsername());
                 mTickView.setText(UserManager.getInstance().getUser().getEmail());
+                ImageLoaderManager.getInstance(mContext).displayImage(userPhotoView, UserManager.getInstance().getUser().getPicture().getFileUrl());
             }
         }
     }
@@ -263,7 +272,8 @@ public class MineFragment extends BaseFragment
                             mLoginedLayout.setVisibility(View.VISIBLE);
                             mUserNameView.setText(UserManager.getInstance().getUser().getUsername());
                             mTickView.setText(UserManager.getInstance().getUser().getEmail());
-        //                    ImageLoaderUtil.getInstance(mContext).displayImage(mPhotoView, UserManager.getInstance().getUser().data.photoUrl);
+                            User user = UserManager.getInstance().getUser();
+                            ImageLoaderManager.getInstance(mContext).displayImage(userPhotoView, user.getPicture().getFileUrl());
                         }
                     }
                     break;

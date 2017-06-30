@@ -3,6 +3,8 @@ package com.smartcampus.manager;
 
 import com.smartcampus.module.user.User;
 
+import cn.bmob.v3.BmobUser;
+
 /**
  * @description 单例管理登陆用户信息
  * @author 李志鹏
@@ -12,6 +14,10 @@ public class UserManager {
 
 	private static UserManager userManager = null;
 	private User user = null;
+
+	private UserManager(){
+		user = BmobUser.getCurrentUser(User.class);
+	}
 
 	public static UserManager getInstance() {
 

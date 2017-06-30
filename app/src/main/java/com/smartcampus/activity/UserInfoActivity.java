@@ -2,25 +2,22 @@ package com.smartcampus.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
+import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alipay.euler.andfix.util.FileUtil;
-import com.github.mikephil.charting.utils.FileUtils;
 import com.smartcampus.R;
 import com.smartcampus.activity.base.BaseActivity;
 import com.smartcampus.manager.UserManager;
 import com.smartcampus.module.user.User;
+import com.smartcampus.util.ImageLoaderManager;
 import com.smartcampus.view.CustomDialog;
 
 import java.io.File;
@@ -46,7 +43,8 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
     private TextView mLogout;
     private CircleImageView heardIcon;
     private CustomDialog dialog;
-    private Bitmap picture;
+    private String pictureUrl;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +65,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         LinearLayout email = (LinearLayout) findViewById(R.id.email);
         ((TextView) email.findViewById(R.id.left)).setText(R.string.email);
         ((TextView) email.findViewById(R.id.right)).setText(user.getEmail());
-        if (picture != null){
-            heardIcon.setImageBitmap(picture);
-        }
-
+        ImageLoaderManager.getInstance(this).displayImage(heardIcon, pictureUrl);
         //初始化dialog
         dialog = new CustomDialog(this);
     }
@@ -81,10 +76,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
             user.setMobilePhoneNumber(getString(R.string.bind_mobile));
         if (TextUtils.isEmpty(user.getEmail()))
             user.setEmail(getString(R.string.bind_email));
-        if (user.getPicture() != null){
-            picture = BitmapFactory.decodeFile(user.getPicture().getFilename());
-        }
-
+        this.pictureUrl = user.getPicture().getFileUrl();
     }
 
     @Override
@@ -142,7 +134,7 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         if (bundle != null) {
             Bitmap bitmap = bundle.getParcelable("data");
             new SaveAndUpload(bitmap, "test.jpg").start();//启动线程
-            heardIcon.setImageBitmap(bitmap);
+
         }
     }
 
@@ -175,15 +167,16 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+    /**
+     * 保存到SD卡并上传线程
+     */
     private class SaveAndUpload extends Thread{
 
         private final Bitmap bitmap;
-        private final String path;
         private final File saveFile;
 
         public SaveAndUpload(Bitmap bitmap, String path){
             this.bitmap = bitmap;
-            this.path = path;
             this.saveFile = new File(Environment.getExternalStorageDirectory(), path);
             if (!saveFile.exists()){
                 try {
@@ -196,18 +189,36 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
         @Override
         public void run() {
             save();
-            //upload();
+            upload();
         }
 
+        /**
+         * 头像上传服务器
+         */
         private void upload() {
             final BmobFile picture = new BmobFile(saveFile);
             picture.uploadblock(new UploadFileListener() {
-
                 @Override
                 public void done(BmobException e) {
                     if(e==null){
                         //bmobFile.getFileUrl()--返回的上传文件的完整地址
                         Log.e("BMOBUPDATE", "上传文件成功:" + picture.getFileUrl());
+                        User user = BmobUser.getCurrentUser(User.class);
+                        user.setPicture(picture);
+                        user.update(new UpdateListener() {
+                            @Override
+                            public void done(BmobException e) {
+                                if (e == null) {
+                                    UserManager.getInstance().setUser(BmobUser.getCurrentUser(User.class));
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            heardIcon.setImageBitmap(bitmap);
+                                        }
+                                    });
+                                }
+                            }
+                        });
                     }else{
                         Log.e("BMOBUPDATE", "上传文件失败：" + e.getMessage());
                     }
@@ -219,25 +230,17 @@ public class UserInfoActivity extends BaseActivity implements View.OnClickListen
                     // 返回的上传进度（百分比）
                 }
             });
-            User user = BmobUser.getCurrentUser(User.class);
-            user.setPicture(picture);
-            user.update(new UpdateListener() {
-                @Override
-                public void done(BmobException e) {
-                    if (e != null){
-                        Log.e("BMOBUPDATE", e.getMessage());
-                        Log.e("BMOBUPDATE", e.getErrorCode()+"");
-                        Log.e("BMOBUPDATE", e+"");
-                    }
-                }
-            });
+
             if (saveFile != null) {
                 if (saveFile.exists()){
-                    saveFile.delete();
+                    //saveFile.delete();
                 }
             }
         }
 
+        /**
+         * 头像保存至SD卡
+         */
         private void save() {
             try {
                 FileOutputStream out = new FileOutputStream(saveFile);
