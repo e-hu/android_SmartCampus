@@ -49,11 +49,6 @@ public class ImoocApplication extends Application {
 
     private void initBmob() {
         Bmob.initialize(this, getString(R.string.bmob_key));
-        User user = BmobUser.getCurrentUser(User.class);
-        if (user != null) {
-            UserManager.getInstance().setUser(user);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(LOGIN_ACTION));
-        }
     }
 
     private void initBaiduMapSDK() {
